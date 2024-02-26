@@ -20,25 +20,27 @@
 </div>
 
 <!--categories start-->
+
 <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4">
-    <% if(categories !='' ) { %>
-        <% categories.forEach(function (category, index) {%>
+    <% if (categories !='' ) { %>
+        <% categories.forEach(function(category, index) { %>
             <a href="/categories/<%- category.name %>" class="col text-center category_link">
                 <div class="category_img shadow">
                     <img src="img/<%- category.image %>" alt="<%- category.name %>" Loading="lazy">
                 </div>
-                <div class="pt-1"><%- category.name %></div>
+                <div class="pt-1"> <%- category.name %></div>
             </a>
-            <%}) %>
+            <% }) %>
                 <% } %>
-
                     <a href="/categories" class="col text-center category_link">
                         <div class="category_img shadow">
-                            <img src="img/viewall.jpg" alt="View all Categories" loading="lazy">
+                            <img src="img/viewall.jpg" alt="View All Categories" Loading="lazy">
                         </div>
+                        <div class="pt-1">View All</div>
                     </a>
 </div>
-<!--categories end-->
+<!-- Categories End -->
+
 
 <!--latest start-->
 <section class="pb-4 pt-4">
@@ -47,42 +49,93 @@
         <a href="/explore-latest" class="ms-auto">View More</a>
     </div>
     <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-        <a href="/recipe/#" class="col text-center category___link">
-            <div class="category_img category_img--large shadow">
-                <img src="img/4.jpg" alt="yomari" Loading="lazy">
-            </div>
-            <div class="pt-1">Yomari</div>
-        </a>
-
-        <a href="/recipe/#" class="col text-center category___link">
-            <div class="category_img category_img--large shadow">
-                <img src="img/6.jpg" alt="yomari" Loading="lazy">
-            </div>
-            <div class="pt-1">Dudhmalai</div>
-        </a>
-        <a href="/recipe/#" class="col text-center category___link">
-            <div class="category_img category_img--large shadow">
-                <img src="img/5.jpg" alt="yomari" Loading="lazy">
-            </div>
-            <div class="pt-1">Teel ko laddu</div>
-        </a>
-        <a href="/recipe/#" class="col text-center category___link">
-            <div class="category_img category_img--large shadow">
-                <img src="img/2.jpeg" alt="yomari" Loading="lazy">
-            </div>
-            <div class="pt-1">Mo:Mo</div>
-        </a>
-        <a href="/recipe/#" class="col text-center category___link">
-            <div class="category_img category_img--large shadow">
-                <img src="img/3.jpeg" alt="yomari" Loading="lazy">
-            </div>
-            <div class="pt-1">Sel</div>
-        </a>
+        <% if(food !='' ) { %>
+            <% food.latest.forEach(function (recipe, index) {%>
+                <a href="/recipe/<%- recipe._id %>" class="col text-center category_link">
+                    <div class="category_img shadow">
+                        <img src="img/<%- recipe.image %>" alt="<%- recipe.name %>" Loading="lazy">
+                    </div>
+                    <div class="pt-1"><%- recipe.name %></div>
+                </a>
+                <%}) %>
+                    <% } %>
     </div>
 </section>
 
 <!--latest end-->
 
+
+<!--newari start-->
+<section class="pb-4 pt-4">
+    <div class="d-flex mb-2 align-items-center">
+        <h2>Newari Recipes</h2>
+        <a href="/categories/newari" class="ms-auto">View More</a>
+    </div>
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+        <% if(food !='' ) { %>
+            <% food.newari.forEach(function (recipe, index) {%>
+                <a href="/recipe/<%- recipe._id %>" class="col text-center category_link">
+                    <div class="category_img shadow">
+                        <img src="img/<%- recipe.image %>" alt="<%- recipe.name %>" Loading="lazy">
+                    </div>
+                    <div class="pt-1"><%- recipe.name %></div>
+                </a>
+                <%}) %>
+                    <% } else {%>
+                        <p> No items found.</p>
+                        <%} %>
+    </div>
+</section>
+
+<!--newari end-->
+
+<!--himali start-->
+<section class="pb-4 pt-4">
+    <div class="d-flex mb-2 align-items-center">
+        <h2>Himali Recipes</h2>
+        <a href="/categories/himali" class="ms-auto">View More</a>
+    </div>
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+        <% if(food !='' ) { %>
+            <% food.himali.forEach(function (recipe, index) {%>
+                <a href="/recipe/<%- recipe._id %>" class="col text-center category_link">
+                    <div class="category_img shadow">
+                        <img src="img/<%- recipe.image %>" alt="<%- recipe.name %>" Loading="lazy">
+                    </div>
+                    <div class="pt-1"><%- recipe.name %></div>
+                </a>
+                <%}) %>
+                <% } else {%>
+                    <p> No items found.</p>
+                    <%} %>
+    </div>
+</section>
+
+<!--himali end-->
+
+<!--thakali start-->
+<section class="pb-4 pt-4">
+    <div class="d-flex mb-2 align-items-center">
+        <h2>Thakali Recipes</h2>
+        <a href="/categories/thakali" class="ms-auto">View More</a>
+    </div>
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+        <% if(food !='' ) { %>
+            <% food.thakali.forEach(function (recipe, index) {%>
+                <a href="/recipe/<%- recipe._id %>" class="col text-center category_link">
+                    <div class="category_img shadow">
+                        <img src="img/<%- recipe.image %>" alt="<%- recipe.name %>" Loading="lazy">
+                    </div>
+                    <div class="pt-1"><%- recipe.name %></div>
+                </a>
+                <%}) %>
+                <% } else {%>
+                    <p> No items found.</p>
+                    <%} %>
+    </div>
+</section>
+
+<!--thakali end-->
 
 
 <!-- Submit Start -->
