@@ -31,4 +31,8 @@ app.use(fileUpload());
 
 const routes = require('./server/routes/recipeRoutes.js')
 app.use('/', routes);
+
+const authRoutes = require('./server/routes/authRoutes.js');
+app.use('/', authRoutes)
+
 app.listen(port, () => console.log(`Listening to port ${port}`));

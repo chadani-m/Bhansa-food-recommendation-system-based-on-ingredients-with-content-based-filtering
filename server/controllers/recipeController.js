@@ -101,7 +101,7 @@ exports.exploreLatest = async(req, res) => {
     const recipe = await Recipe.find({}).sort({ _id: -1 }).limit(limitNumber);
     res.render('explore-latest', { title: 'Bhansa - Explore Latest', recipe } );
   } catch (error) {
-    res.satus(500).send({message: error.message || "Error Occured" });
+    res.status(500).send({message: error.message || "Error Occured" });
   }
 } 
 
@@ -177,36 +177,3 @@ exports.submitRecipeOnPost = async(req, res) => {
     res.redirect('/submit-recipe');
   }
 }
-
-
-// async function insertDummyCategoryData(){
-//  try{
-// await Category.insertMany([
-// {
-//  "name":"newari",
-//   "image":"newari.jpg"
-//  },
-// {
-//  "name":"thakali",
-//  "image":"thakali.png"
-// },
-// {
-//  "name":"himali",
-//  "image":"himali.jpg"
-// },
-// {
-//  "name":"madhesi",
-//   "image":"madhesi.jpg"
-//  },
-//  {
-//   "name":"janjati",
-//   "image":"janjati.jpg"
-//    },
-//  ]);
-
-// } catch (error){
-// console.log('err', + error)
-//  }
-// }
-
-// insertDummyCategoryData();

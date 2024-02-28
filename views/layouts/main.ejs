@@ -29,7 +29,7 @@
                 <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
                 <li><a href="/myRecipe" class="nav-link px-2 text-secondary">My Recipes</a></li>
                 <li><a href="/submit-recipe" class="nav-link px-2 text-secondary">Submit</a></li>
-                <li><a href="/about" class="nav-link px-2 text-secondary">About</a></li>
+                <li><a href="/ingredientSearch" class="nav-link px-2 text-secondary">Ingredient Search</a></li>
             </ul>
 
             <form method="post" action="/search">
@@ -37,12 +37,30 @@
             </form>
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-dark me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
+                <button type="button" class="btn btn-outline-dark me-2" onclick="window.location.href='/login'">Login</button>
+                <button type="button" class="btn btn-warning" onclick="window.location.href='/register'">Register</button>
             </div>
+            
+            
+            <!-- <div id="pageContentContainer" class="mt-5"></div> -->
+            
 
         </header>
-
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function loadPage(page) {
+        $.ajax({
+            url: page,
+            method: 'GET',
+            success: function (html) {
+                $('#pageContentContainer').html(html);
+            },
+            error: function () {
+                console.error('Failed to load the page.');
+            }
+        });
+    }
+</script>
         <main>
             <%- body -%>
         </main>
