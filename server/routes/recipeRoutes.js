@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.get('/', recipeController.homepage);
 router.get('/recipe/:id', recipeController.exploreRecipe );
-router.get('/ingredientSearch', recipeController.ingredientSearch );
+router.get('/ingredientSearch', recipeController.renderIngredientSearch);
+router.post('/ingredientSearch', recipeController.searchIngredientByRecipe);
 router.get('/categories', recipeController.exploreCategories);
 router.get('/categories/:id', recipeController.exploreCategoriesById);
 router.post('/search', recipeController.searchRecipe);

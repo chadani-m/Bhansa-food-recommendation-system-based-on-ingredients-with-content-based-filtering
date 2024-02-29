@@ -1,18 +1,30 @@
-<body>
-    <div class="container">
-        <h1 class="text-center mt-5">Ingredient Search</h1>
+<!-- ingredient search form -->
+<div class="container">
+    <h1 class="text-center mt-5">Ingredient Search</h1>
 
-        <!-- Form for ingredient search -->
-        <form action="/search" method="post">
-            <div class="mb-3">
-                <label for="ingredients" class="form-label">Enter Ingredients (comma-separated):</label>
-                <input type="text" class="form-control" id="ingredients" name="ingredients" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Recipes</button>
-        </form>
+    <!-- Form for ingredient search -->
+    <form method="post" action="/ingredientSearch" class="mb-4">
+        <input type="search" name="searchTermForIngredient" class="form-control" placeholder="Ingredient Search..." aria-label="Ingredient Based Search">
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </form>
+</div>
 
-        <!-- Display search results here if needed -->
+<!-- food recommendation -->
+<div class="container">
+    <h1 class="pb-4">Ingredient Based Search Results</h1>
 
-        <!-- Add your footer content as needed -->
-
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+        <% if(recipe && recipe.length > 0) { %>
+            <% recipe.forEach(function(recipe, index){ %>
+            <a href="/recipe/<%= recipe._id %>" class="col text-center category__link">
+                <div class="category_img category__img--large shadow">
+                    <img src="/uploads/<%= recipe.image %>" alt="<%= recipe.name %>" loading="lazy">
+                </div>
+                <div class="pt-1"><%= recipe.name %></div>
+            </a>
+            <% }) %>
+        <% } else { %>
+            <p>No items found.</p>
+        <% } %>
     </div>
+</div>

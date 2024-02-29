@@ -4,16 +4,16 @@ const Recipe = require('../models/Recipe');
 
 exports.homepage = async(req, res) => {
   try {
-    const limitNumber = 5;
+    const limitNumber = 15;
     const categories = await Category.find({}).limit(limitNumber);
     const latest = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
     const newari = await Recipe.find({ 'category': 'newari' }).limit(limitNumber);
-    const thakali= await Recipe.find({ 'category': 'hakali' }).limit(limitNumber);
+    const magar= await Recipe.find({ 'category': 'magar' }).limit(limitNumber);
     const himali = await Recipe.find({ 'category': 'himali' }).limit(limitNumber);
-    const madhesi = await Recipe.find({ 'category': 'madhesi' }).limit(limitNumber);
-    const janjati = await Recipe.find({ 'category': 'janjati' }).limit(limitNumber);
+    const tharu = await Recipe.find({ 'category': 'tharu' }).limit(limitNumber);
+    const hilly = await Recipe.find({ 'category': 'hilly' }).limit(limitNumber);
 
-    const food = { latest, newari, thakali, himali, madhesi, janjati };
+    const food = { latest, newari, magar, himali, tharu, hilly };
 
     res.render('index', { title: 'Bhansa - Home', categories, food } );
   } catch (error) {
@@ -27,7 +27,7 @@ exports.homepage = async(req, res) => {
 exports.exploreCategories = async (req, res) => {
 
   try {
-    const limitNumber = 5;
+    const limitNumber = 15;
     const categories = await Category.find({}).limit(limitNumber);
     res.render('categories', { title: 'Bhansa - Category', categories });
 
@@ -177,3 +177,25 @@ exports.submitRecipeOnPost = async(req, res) => {
     res.redirect('/submit-recipe');
   }
 }
+
+// Render the ingredient search page
+// Assuming you have something like this in your controller
+exports.renderIngredientSearch = (req, res) => {
+  res.render('ingredientSearch', { title: 'Ingredient Search', recipe: [] }); // Pass an empty array as the default value
+};
+
+exports.searchIngredientByRecipe = async (req, res) => {
+  try {
+    let searchTerm = req.body.searchTermForIngredient;
+
+    // Check if searchTerm is defined and not null
+    if (!searchTerm || typeof searchTerm !== 'string') {
+      return res.status(400).send({ message: 'Invalid search term' });
+    }
+
+    let recipe = await Recipe.find({ $text: { $search: searchTerm, $diacriticSensitive: true } });
+    res.render('ingredientSearch', { title: 'Bhansa - Search', recipe });
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Error Occurred" });
+  }
+};
