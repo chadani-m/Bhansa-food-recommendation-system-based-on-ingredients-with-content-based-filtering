@@ -8,12 +8,13 @@ exports.homepage = async(req, res) => {
     const categories = await Category.find({}).limit(limitNumber);
     const latest = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
     const newari = await Recipe.find({ 'category': 'newari' }).limit(limitNumber);
-    const magar= await Recipe.find({ 'category': 'magar' }).limit(limitNumber);
+    const magar = await Recipe.find({ 'category': 'magar' }).limit(limitNumber);
     const himali = await Recipe.find({ 'category': 'himali' }).limit(limitNumber);
     const tharu = await Recipe.find({ 'category': 'tharu' }).limit(limitNumber);
     const hilly = await Recipe.find({ 'category': 'hilly' }).limit(limitNumber);
+    const thakali = await Recipe.find({ 'category': 'thakali' }).limit(limitNumber);
 
-    const food = { latest, newari, magar, himali, tharu, hilly };
+    const food = { latest, newari, magar, himali, tharu, hilly, thakali };
 
     res.render('index', { title: 'Bhansa - Home', categories, food } );
   } catch (error) {
@@ -199,3 +200,4 @@ exports.searchIngredientByRecipe = async (req, res) => {
     res.status(500).send({ message: error.message || "Error Occurred" });
   }
 };
+

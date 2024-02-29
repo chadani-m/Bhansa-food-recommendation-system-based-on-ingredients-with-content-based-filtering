@@ -67,12 +67,12 @@
 
 <!--latest end-->
   
-  <!-- Display Recipes for Each Category -->
-  <% categories.forEach(function(category) { %>
+ <!-- Display Recipes for Each Category -->
+<% categories.forEach(function(category) { %>
     <section class="pb-4 pt-4">
       <div class="d-flex mb-2 align-items-center">
         <h2><%- category.name %> Recipes</h2>
-        <a href="/categories/<%- category.name %>" class="ms-auto">View More</a>
+        <a href="/categories/<%- category.name.toLowerCase() %>" class="ms-auto">View More</a>
       </div>
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
         <% if (food && food[category.name.toLowerCase()] && food[category.name.toLowerCase()].length > 0) { %>
@@ -89,7 +89,8 @@
         <% } %>
       </div>
     </section>
-  <% }); %>  
+  <% }); %>
+  
 
 <!-- Submit Start -->
 <section class="px-4 py-5 my-5 text-center">
