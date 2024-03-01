@@ -74,6 +74,18 @@ exports.exploreCategoriesById = async(req, res) => {
 
 
 
+//calculateJaccardSimilarity algorithm
+const calculateJaccardSimilarity = (recipe1, recipe2) => {
+  const ingredientsSet1 = new Set(recipe1.ingredients);
+  const ingredientsSet2 = new Set(recipe2.ingredients);
+
+  const intersectionSize = [...ingredientsSet1].filter(ingredient => ingredientsSet2.has(ingredient)).length;
+  const unionSize = ingredientsSet1.size + ingredientsSet2.size - intersectionSize;
+
+  return unionSize === 0 ? 0 : intersectionSize / unionSize;
+};
+
+
 /**
  * POST /search
  * Search 
@@ -81,12 +93,37 @@ exports.exploreCategoriesById = async(req, res) => {
 exports.searchRecipe = async(req, res) => {
   try {
     let searchTerm = req.body.searchTerm;
-    let recipe = await Recipe.find( { $text: { $search: searchTerm, $diacriticSensitive: true } });
-    res.render('search', { title: 'Bhansa - Search', recipe } );
+    let recipe = await Recipe.find({ $text: { $search: searchTerm, $diacriticSensitive: true } });
+
+    // Assuming the user is searching for a specific recipe
+    if (recipe.length > 0) {
+      const targetRecipe = recipe[0];
+      const allRecipes = await Recipe.find();
+
+      // Calculate Jaccard similarity scores for each recipe
+      const similarityScores = allRecipes.map(otherRecipe => ({
+        recipe: otherRecipe,
+        similarity: calculateJaccardSimilarity(targetRecipe, otherRecipe),
+      }));
+
+      // Sort recipes by similarity in descending order
+      const recommendedRecipes = similarityScores
+        .filter(item => item.recipe._id.toString() !== targetRecipe._id.toString())
+        .sort((a, b) => b.similarity - a.similarity)
+        .map(item => item.recipe)
+        
+        //filtering common ingredients from recipe
+        .filter(recommendedRecipe => !['water', 'salt'].some(ingredient => recommendedRecipe.ingredients.includes(ingredient.toLowerCase())));
+
+      // Render the search results and recommended recipes
+      res.render('search', { title: 'Bhansa - Search', recipe, recommendedRecipes });
+    } else {
+      // Render only the search results
+      res.render('search', { title: 'Bhansa - Search', recipe });
+    }
   } catch (error) {
-    res.status(500).send({message: error.message || "Error Occured" });
+    res.status(500).send({ message: error.message || "Error Occurred" });
   }
-  
 }
 
 
@@ -180,11 +217,12 @@ exports.submitRecipeOnPost = async(req, res) => {
 }
 
 // Render the ingredient search page
-// Assuming you have something like this in your controller
+//get
 exports.renderIngredientSearch = (req, res) => {
   res.render('ingredientSearch', { title: 'Ingredient Search', recipe: [] }); // Pass an empty array as the default value
 };
 
+//post
 exports.searchIngredientByRecipe = async (req, res) => {
   try {
     let searchTerm = req.body.searchTermForIngredient;
@@ -195,9 +233,14 @@ exports.searchIngredientByRecipe = async (req, res) => {
     }
 
     let recipe = await Recipe.find({ $text: { $search: searchTerm, $diacriticSensitive: true } });
-    res.render('ingredientSearch', { title: 'Bhansa - Search', recipe });
+    res.render('ingredientSearch', { title: 'Bhansa -Ingredient based search', recipe });
   } catch (error) {
     res.status(500).send({ message: error.message || "Error Occurred" });
   }
 };
 
+// Render the content-based-filtering search page
+//get
+exports.renderRecommendationSearch = (req, res) => {
+  res.render('content-based-filtering', { title: 'Bhansa: Content-based-filtering Search', recipe: [] }); // Pass an empty array as the default value
+};
