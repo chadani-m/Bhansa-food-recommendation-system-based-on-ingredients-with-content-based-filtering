@@ -78,11 +78,11 @@ exports.loginUserOnPost = async (req, res) => {
     }
 
     // If credentials are valid, set user session and redirect to home page or dashboard
-    // Assuming you're using express-session for session management
+  
     req.session.user = user;
     res.redirect('/'); // Redirect to home page or dashboard after successful login
   } catch (error) {
-    // If an error occurs during login, handle it appropriately
+    // If an error occurs during login, handling it 
     res.status(500).render('login', { title: 'Login', error: error.message || "Error Occurred" });
   }
 };

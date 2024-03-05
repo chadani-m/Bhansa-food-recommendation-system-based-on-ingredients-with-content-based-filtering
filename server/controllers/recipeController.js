@@ -73,7 +73,6 @@ exports.exploreCategoriesById = async(req, res) => {
 }
 
 
-
 //calculateJaccardSimilarity algorithm
 const calculateJaccardSimilarity = (recipe1, recipe2) => {
   const ingredientsSet1 = new Set(recipe1.ingredients);
@@ -84,8 +83,6 @@ const calculateJaccardSimilarity = (recipe1, recipe2) => {
 
   return unionSize === 0 ? 0 : intersectionSize / unionSize;
 };
-
-
 /**
  * POST /search
  * Search 
@@ -111,7 +108,7 @@ exports.searchRecipe = async(req, res) => {
         .filter(item => item.recipe._id.toString() !== targetRecipe._id.toString())
         .sort((a, b) => b.similarity - a.similarity)
         .map(item => item.recipe)
-        
+
         //filtering common ingredients from recipe
         .filter(recommendedRecipe => !['water', 'salt'].some(ingredient => recommendedRecipe.ingredients.includes(ingredient.toLowerCase())));
 
